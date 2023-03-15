@@ -3,37 +3,32 @@
 // of the objects we can accommodate in a bad of weight w. idea: for each 
 // item, we have two choices, either to incluse it or not. 
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
+int knapsack(int wt[], int val[], int w, int n)
+{
+    if(n==0 || w == 0) return 0;        //base condition
 
-
-int knapsack(vector<int> ww, vector<int> vv, int w, int n){
-    
-    if(n == 0 || w == 0){
-        return 0;
+    if(wt[n-1] <= w)
+    {
+        int included = val[n-1] + knapsack(wt, val, w-wt[n-1], n-1);
+        int notIncluded = knapsack(wt, val, w, n-1);
+        return max(included, notIncluded);
     }
-
-    if(ww[n-1] <= w){
-        int inc = vv[n-1] + knapsack(ww,vv, w-ww[n-1],n-1);
-        int ninc = knapsack(ww,vv,w,n-1);
-
-        return max(inc, ninc);
+    if(wt[n-1] > w)
+    {
+        return knapsack(wt, val, w, n-1);
     }
-    else{
-        return knapsack(ww,vv, w, n-1);
-    }
-
 }
 
-int main(){
-
-    vector<int> weight = {15,2,15,55};
-    vector<int> val = {20,66,1,20};
+int main()
+{
+    int wt[] = {1,3,4,5};
+    int val[] = {1,3,5,7};
+    int size = 4;
+    int w = 7;
+    cout<<knapsack(wt, val, w, size)<<endl;
     
-    int w = 20;
-    int n = weight.size();
-
-    int ret = knapsack(weight,val,w,n);
-
-    cout<<ret<<endl;
+    
+    return 0;
 }
